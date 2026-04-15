@@ -4,16 +4,15 @@
   "description": "HashPay - Privacy-First Payment Protocol on HashKey Chain",
   "type": "module",
   "workspaces": [
-    "frontend",
-    "backend"
+    "frontend"
   ],
   "scripts": {
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "deploy:testnet": "npx hardhat run scripts/deploy.js --network hashkeyTestnet",
     "deploy:local": "npx hardhat run scripts/deploy.js --network hardhat",
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
+    "start": "node server.js",
+    "dev": "node server.js",
     "build": "npm install && npm run build -w frontend"
   },
   "dependencies": {
