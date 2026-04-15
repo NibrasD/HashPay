@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: hashpay-backend
+    name: hashpay
     env: node
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -13,14 +13,5 @@ services:
         sync: false
       - key: HASHKEY_API_SECRET
         sync: false
-    rootDir: backend
-
-  - type: web
-    name: hashpay-frontend
-    env: static
-    buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
-    envVars:
       - key: VITE_BACKEND_URL
-        value: https://hashpay-backend.onrender.com/api
-    rootDir: frontend
+        value: https://hashpay.onrender.com/api # Change this to your final URL

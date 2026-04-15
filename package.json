@@ -1,7 +1,8 @@
 {
-  "name": "nullpay-hsk",
+  "name": "hashpay",
   "version": "1.0.0",
   "description": "HashPay - Privacy-First Payment Protocol on HashKey Chain",
+  "type": "module",
   "workspaces": [
     "frontend",
     "backend"
