@@ -7,11 +7,14 @@
     "test": "npx hardhat test",
     "deploy:testnet": "npx hardhat run scripts/deploy.js --network hashkeyTestnet",
     "deploy:local": "npx hardhat run scripts/deploy.js --network hardhat",
-    "start": "node backend/server.js",
+    "start": "cd backend && node server.js",
     "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.0"
+    "@openzeppelin/contracts": "^5.0.0",
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
