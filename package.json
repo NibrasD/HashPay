@@ -2,13 +2,17 @@
   "name": "nullpay-hsk",
   "version": "1.0.0",
   "description": "HashPay - Privacy-First Payment Protocol on HashKey Chain",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "deploy:testnet": "npx hardhat run scripts/deploy.js --network hashkeyTestnet",
     "deploy:local": "npx hardhat run scripts/deploy.js --network hardhat",
-    "start": "cd backend && node server.js",
-    "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build"
+    "start": "node backend/server.js",
+    "build": "npm install && npm run build -w frontend"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
