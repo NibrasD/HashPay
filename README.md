@@ -16,12 +16,15 @@ HashPay HSK is a privacy-first invoice and payment protocol built on **HashKey C
 
 ## 🏗️ Architecture
 
-```
-Merchant → Frontend → Smart Contract → HashKey Chain
-                                              ↓
-                                    Backend DB (Encrypted)
-                                              ↓
-Payer → Frontend → Verify Hash → Pay Invoice
+```mermaid
+graph TD
+    A[Merchant] -->|1. Creates Private Invoice| B[React Frontend]
+    B -->|2. Submits Hash to Contract| C[HashPay Smart Contract]
+    C -->|Stores State| D[(HashKey Testnet)]
+    B -.->|3. Triggers Payment Route| E[Node.js Backend]
+    E -.->|4. Signed HMAC Request| F((HashKey Payment CaaS API))
+    G[Payer] -->|5. Fulfills Payment| B
+    B -->|6. Commit-Reveal Verification| C
 ```
 
 ### Privacy Model (Commit-Reveal)
@@ -36,20 +39,21 @@ Payer → Frontend → Verify Hash → Pay Invoice
 ```
 HashPay/
 ├── contracts/
-│   ├── HashPay.sol          # Core invoice/payment protocol
+│   ├── HashPay.sol             # Core invoice/payment protocol
 │   ├── HSPSettlement.sol       # PayFi settlement channels
 │   └── interfaces/IERC20.sol   # ERC20 interface
-├── scripts/deploy.js            # Deployment script
-├── hardhat.config.js            # HashKey Chain config
+├── backend/
+│   ├── server.js               # Node.js Express server for CaaS integration
+│   ├── package.json            # Backend dependencies
+│   └── .env.example            # Backend env vars
 ├── frontend/
 │   └── src/
-│       ├── App.jsx              # Main app with routing
-│       ├── index.css            # Design system
-│       ├── config/              # Chain & contract config
-│       ├── hooks/               # Wallet, contract, invoice hooks
-│       ├── pages/               # Landing, Create, Pay, Dashboard, Settlement, Explorer
-│       ├── components/          # Navbar, InvoiceCard, Toast, ParticleBackground
-│       └── utils/               # Crypto & formatting utilities
+│       ├── App.jsx             # Main app with routing
+│       ├── config/             # Chain & API config
+│       ├── hooks/              # Wallet, contract, invoice hooks
+│       ├── pages/              # Landing, Create, Pay, Dashboard, Settlement
+│       └── components/         # Navbar, InvoiceCard, Toast
+├── render.yaml                 # Render.com deployment configuration
 └── README.md
 ```
 
@@ -88,8 +92,18 @@ npx hardhat run scripts/deploy.js --network hashkeyTestnet
 
 After deployment, update the contract addresses in `frontend/src/config/contracts.js`.
 
-### 4. Run Frontend
+### 4. Run Locally (Full Stack)
 
+To test the full CaaS integration, run both frontend and backend:
+
+**Terminal 1: Node.js Backend**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**Terminal 2: React Frontend**
 ```bash
 cd frontend
 npm run dev
